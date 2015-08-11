@@ -1,0 +1,67 @@
+gr,species,sampleID,station,study,fjord,d2H,d15N,d13C,TL,d2H_w
+1,Euphausia pacifica,Euph50,CB12,glacier,Columbia Bay,-140.93,8.16,-19.64,2.3,-36.12
+1,Euphausia pacifica,Euph51,CB12,glacier,Columbia Bay,-145.39,9.02,-18.59,2.6,-36.12
+1,Euphausia pacifica,Euph52,CB12,glacier,Columbia Bay,-147.1,9.01,-18.96,2.6,-36.12
+1,Euphausia pacifica,Euph53,CB12,glacier,Columbia Bay,-154.05,10.42,-17.97,3,-36.12
+1,Euphausia pacifica,Euph71,CB12,glacier,Columbia Bay,-146.33,8.8,-19,2.5,-36.12
+1,Euphausia pacifica,Euph42,CB2,glacier,Columbia Bay,-145.49,10.03,-17.55,2.9,-35.16
+1,Euphausia pacifica,12,HB1,glacier,Harriman,-163.72,10.68,-19.88,3.1,-32.46
+1,Euphausia pacifica,14,HB1,glacier,Harriman,-132.08,11.14,-18.67,3.2,-32.46
+1,Euphausia pacifica,1,HB1,glacier,Harriman,-135.04,11.31,-18.61,3.3,-32.46
+1,Euphausia pacifica,4,HB1,glacier,Harriman,-127.52,11.31,-18.37,3.3,-32.46
+1,Euphausia pacifica,10,HB1,glacier,Harriman,-135.26,11.31,-18.69,3.3,-32.46
+1,Euphausia pacifica,5,HB1,glacier,Harriman,-136.77,11.36,-18.21,3.3,-32.46
+1,Euphausia pacifica,8,HB1,glacier,Harriman,-179.9,11.39,-19.34,3.3,-32.46
+1,Euphausia pacifica,7,HB1,glacier,Harriman,-131.82,11.63,-18.31,3.4,-32.46
+1,Euphausia pacifica,9,HB1,glacier,Harriman,-147.91,12.45,-18.86,3.6,-32.46
+1,Euphausia pacifica,13,HB1,glacier,Harriman,-139.79,12.59,-19.41,3.6,-32.46
+1,Euphausia pacifica,15,HB1,glacier,Harriman,-131.82,12.75,-18.93,3.7,-32.46
+1,Euphausia pacifica,3,HB1,glacier,Harriman,-147.73,12.83,-18.74,3.7,-32.46
+1,Euphausia pacifica,6,HB1,glacier,Harriman,-138.49,12.83,-18.47,3.7,-32.46
+1,Euphausia pacifica,11,HB1,glacier,Harriman,-139.5,13.02,-18.7,3.8,-32.46
+1,Euphausia pacifica,2,HB1,glacier,Harriman,-132.27,13.11,-18.35,3.8,-32.46
+1,Euphausia pacifica,16,UN2,glacier,UN,-140.73,9.86,-18.58,2.8,-23.67
+1,Euphausia pacifica,29,UN2,glacier,UN,-117.6,10.05,-18.62,2.9,-23.67
+1,Euphausia pacifica,19,UN2,glacier,UN,-117.3,10.22,-19.44,2.9,-23.67
+1,Euphausia pacifica,24,UN2,glacier,UN,-124.28,10.41,-20.01,3,-23.67
+1,Euphausia pacifica,27,UN2,glacier,UN,-123.93,10.57,-18.99,3,-23.67
+1,Euphausia pacifica,25,UN2,glacier,UN,-123.55,10.74,-18.91,3.1,-23.67
+1,Euphausia pacifica,20,UN2,glacier,UN,-131.43,10.76,-18.96,3.1,-23.67
+1,Euphausia pacifica,28,UN2,glacier,UN,-130.87,10.9,-19.05,3.1,-23.67
+1,Euphausia pacifica,17,UN2,glacier,UN,-121.4,11.09,-18.66,3.2,-23.67
+1,Euphausia pacifica,21,UN2,glacier,UN,-117.2,11.14,-18.61,3.2,-23.67
+1,Euphausia pacifica,22,UN2,glacier,UN,-127.13,11.14,-18.69,3.2,-23.67
+1,Euphausia pacifica,23,UN2,glacier,UN,-128.65,11.14,-18.53,3.2,-23.67
+1,Euphausia pacifica,30,UN2,glacier,UN,-103.32,11.44,-18.57,3.3,-23.67
+1,Euphausia pacifica,18,UN2,glacier,UN,-130.7,11.93,-18.76,3.4,-23.67
+1,Euphausia pacifica,26,UN2,glacier,UN,-131.59,12.04,-18.22,3.5,-23.67
+2,Thysanoessa sp.,Euph76,BK4,glacier,Blackstone Bay,-157.18,9.34,-19.31,2.7,-37.25
+2,Thysanoessa sp.,Euph54,IBP1,glacier,IBP,-170.09,10.06,-17.57,2.9,-32.26
+2,Thysanoessa sp.,Euph55,IBP1,glacier,IBP,-164.93,9.86,-17.67,2.8,-32.26
+2,Thysanoessa sp.,Euph56,IBP1,glacier,IBP,-171.3,9.46,-17.38,2.7,-32.26
+2,Thysanoessa sp.,Euph58,IBP1,glacier,IBP,-161.83,10.12,-18.05,2.9,-32.26
+2,Thysanoessa sp.,Euph59,IBP1,glacier,IBP,-176.2,9.67,-17.89,2.8,-32.26
+2,Thysanoessa sp.,Euph60,IBP1,glacier,IBP,-170,9.94,-17.52,2.9,-32.26
+2,Thysanoessa sp.,Euph61,IBP1,glacier,IBP,-157.78,9.93,-17.82,2.9,-32.26
+2,Thysanoessa sp.,Euph62,IBP1,glacier,IBP,-167.28,11.16,-18.1,3.2,-32.26
+2,Thysanoessa sp.,Euph63,IBP1,glacier,IBP,-164.96,10.08,-17.86,2.9,-32.26
+2,Thysanoessa sp.,Euph64,IBP1,glacier,IBP,-173.97,10.55,-18.02,3,-32.26
+2,Thysanoessa sp.,Euph65,IBP1,glacier,IBP,-169.33,10.06,-17.86,2.9,-32.26
+2,Thysanoessa sp.,Euph31,BK4,glacier,Blackstone Bay,-152.01,9.79,-19.56,2.8,-37.25
+2,Thysanoessa sp.,Euph33,BK4,glacier,Blackstone Bay,-158,9.22,-18.85,2.6,-37.25
+2,Thysanoessa sp.,Euph34,BK4,glacier,Blackstone Bay,-162.5,9.5,-18.43,2.7,-37.25
+2,Thysanoessa sp.,Euph36,BK4,glacier,Blackstone Bay,-162.09,9.65,-18.78,2.8,-37.25
+2,Thysanoessa sp.,Euph39,BK4,glacier,Blackstone Bay,-153.62,8.38,-21.02,2.4,-37.25
+2,Thysanoessa sp.,Euph41,BK4,glacier,Blackstone Bay,-150.25,9.56,-18.59,2.7,-37.25
+2,Thysanoessa sp.,Euph80,BK4,glacier,Blackstone Bay,-148.31,9.84,-18.16,2.8,-37.25
+2,Thysanoessa sp.,Euph32,BK4,glacier,Blackstone Bay,-160.72,9.58,-18.86,2.8,-37.25
+2,Thysanoessa sp.,Euph82,BLKI58,glacier,IBP,-147.7,10.5,-17.8,3,-32.26
+2,Thysanoessa sp.,Euph83,BLKI59,glacier,IBP,-146.68,10.4,-18.1,3,-32.26
+2,Thysanoessa sp.,Euph81,BLKI57,glacier,IBP,-152.56,10.33,-17.82,3,-32.26
+2,Thysanoessa sp.,Euph44,CB12,glacier,Columbia Bay,-142.54,10.16,-18.74,2.9,-36.12
+2,Thysanoessa sp.,Euph45,CB12,glacier,Columbia Bay,-143.71,9.58,-18.95,2.8,-36.12
+2,Thysanoessa sp.,Euph46,CB12,glacier,Columbia Bay,-142.14,10.29,-18.9,3,-36.12
+2,Thysanoessa sp.,Euph47,CB12,glacier,Columbia Bay,-141.2,10.51,-18.87,3,-36.12
+2,Thysanoessa sp.,Euph48,CB12,glacier,Columbia Bay,-143.33,10.19,-18.72,2.9,-36.12
+2,Thysanoessa sp.,Euph49,CB12,glacier,Columbia Bay,-149.5,9.1,-19.61,2.6,-36.12
+2,Thysanoessa sp.,Euph43,CB2,glacier,Columbia Bay,-151.84,10.83,-18.38,3.1,-35.16

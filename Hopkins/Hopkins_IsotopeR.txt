@@ -1,0 +1,240 @@
+##Isotope Mixing ,Model with Measurement Error, Source Correlation, Concentration Error and residual error
+##doesnt estimate third source concentration, inputs mean and variance
+##code based on Moore & Semmens 2009
+##outputs C:N ratios
+##Jake Ferguson, last  updated 7/13/2010
+model {
+
+  ##################################
+  ##estimate the measurement error##
+  ##################################
+  muz[1] <- 0; 
+  muz[2] <- 0; 
+  tauZ[1,2] <- 0;
+  tauZ[2,1] <- 0;
+  for(iso in 1:num.iso) {
+    tauZ[iso,iso] ~ dgamma(.001,.001)
+  }
+  sigmaZ <- inverse(tauZ);
+
+  for(i in 1:Nz) {
+    Z[i,] ~ dmnorm(muz,tauZ);
+  }
+    
+  ###############################
+  ##estimate the concentrations##
+  ###############################
+  for(source in 1:(num.sources-1)) {
+  ##covariance matrix
+  for(sourcex in 2:(num.iso)) {
+      for(sourcey in 1:(sourcex-1)) {
+	D.tau.temp[sourcex,sourcey,source] <- 0
+      }
+    }
+    for(sourcey in 2:(num.iso)) {
+      for(sourcex in 1:(sourcey-1)) {
+	D.tau.temp[sourcex,sourcey,source] <- 0
+      }
+    }
+    for(source2 in 1:num.iso) {
+      D.tau.temp[source2,source2,source] ~ dgamma(.001,.001)
+    }
+  }
+  ##this is the fixed value
+  for(sourcex in 2:(num.iso)) {
+      for(sourcey in 1:(sourcex-1)) {
+	D.tau.temp[sourcex,sourcey,num.sources] <- 0
+      }
+    }
+  for(sourcey in 2:(num.iso)) {
+    for(sourcex in 1:(sourcey-1)) {
+      D.tau.temp[sourcex,sourcey,num.sources] <- 0
+    }  
+  }
+  for(source2 in 1:num.iso) {
+      D.tau.temp[source2,source2,num.sources] <- 1/source.var[source2]
+  }
+  
+  for(source in 1:(num.sources)) {
+      D.cov[1:num.iso,1:num.iso,source] <- inverse(D.tau.temp[,,source])
+      D.tau[1:num.iso,1:num.iso,source] <- D.tau.temp[,,source]
+  }#end for sources
+  for(source in 1:(num.sources-1)) {
+    D.mu[1:num.iso,source] ~ dmnorm(dmu.prior.mu[,source], dmu.prior.tau[,])
+  }
+  D.mu[1:num.iso,num.sources] <- source.mean
+  for(source in 1:num.sources) {
+    for(count in 1:cd.ss[source]) {
+      cd.array[count,1:num.iso,source] ~ dmnorm(D.mu[,source], D.tau[,,source])
+    }
+  }
+  
+  #####################
+  ##Source C:N ratios##
+  #####################
+  for(source in 1:num.sources) {
+    CNratio[source] <- D.mu[1,source]/D.mu[2,source]
+  }
+  
+  
+  
+  ###########################
+  ##Proportion estimamation##
+  ###########################
+  ## this is the global mean
+  for(i in 1:num.sources) {mu[i] ~ dnorm(alpha.clr[i], 0.001)} 
+  pop.invSig2 ~ dgamma(1,1)
+#   pop.sd ~ dexp(1)#dunif(0,20)
+#   pop.invSig2 <- 1/(pop.sd*pop.sd)
+  pop.var <- 1/pop.invSig2
+  for(source in 1:num.sources) {
+    p.transform[source] ~ dnorm(mu[source],pop.invSig2);
+  }  
+   
+  ##generate individuals draws from the global mean
+  ind.invSig2 ~ dgamma(1,1)
+#   ind.sd ~ dexp(1)#dunif(0,20)
+  ind.var <- 1/ind.invSig2
+#   ind.invSig2 <- 1/(ind.sd*ind.sd)
+  for(i in 1:N) {
+    for(source in 1:num.sources) {
+      p.ind[i,source] ~ dnorm(p.transform[source], ind.invSig2);
+      exp.p[i,source] <- exp(p.ind[i,source]);
+    }
+  }
+    
+  ##CLR math: This does the back-transform to get back to proportions
+  for(source in 1:num.sources) {
+    p.exp.transform[source] <- exp(p.transform[source]);
+  }
+  p.mean.tot <- sum(p.exp.transform[]);
+  for(source in 1:(num.sources-1)) {
+    p.pop[source] <- p.exp.transform[source]/p.mean.tot;
+  }
+  p.pop[num.sources] <- 1-sum(p.pop[1:(num.sources-1)]); 
+  
+  ##rescale p.pop for concentration dependence
+  p.popdenom <- D.mu%*%p.pop
+  for(iso in 1:num.iso) {
+    for(source in 1:num.sources) {
+      pIso.pop[iso,source]	<- D.mu[iso,source]*p.pop[source]/p.popdenom[iso]
+    }
+  }
+  
+  ##individual p's
+  for(i in 1:N) {
+    p.tot[i] <- sum(exp.p[i,1:num.sources]);
+      for(source in 1:(num.sources-1)) {
+	p[i,source] <- exp.p[i,source]/p.tot[i];
+      }
+    p[i,num.sources] <- 1-sum(p[i,1:(num.sources-1)]);
+   
+    ##rescale p.pop for concentration dependence
+    p.inddenom[i,1:num.iso] <- D.mu%*%p[i,]
+    for(iso in 1:num.iso) {
+      for(source in 1:num.sources) {
+	pIso.ind[i,iso,source]	<- D.mu[iso,source]*p[i,source]/p.inddenom[i,iso]
+      }
+    }
+ }#end for i
+  
+  #####################
+  ##Source Estimation##
+  #####################
+  ##estimate sources
+  for(source in 1:num.sources) { 
+   ##covariance matrix
+    for(sourcex in 2:(num.iso)) {
+      for(sourcey in 1:(sourcex-1)) {
+	tau.source.temp[sourcex,sourcey,source] <- 0
+      }
+    }
+    for(sourcey in 2:(num.iso)) {
+      for(sourcex in 1:(sourcey-1)) {
+	tau.source.temp[sourcex,sourcey,source] <- 0
+      }
+    }
+    for(source2 in 1:num.iso) {
+      tau.source.temp[source2,source2,source] ~ dgamma(.0010,.0010)
+    }
+       
+    ##build source correlation matrix
+    rho.source[source] ~ dunif(-1,1)
+    for(sourcex in 2:(num.iso)) {
+      for(sourcey in 1:(sourcex-1)) {
+	corr.source[sourcex,sourcey,source] <- rho.source[source]
+      }
+    }
+    for(sourcey in 2:(num.iso)) {
+      for(sourcex in 1:(sourcey-1)) {
+	corr.source[sourcex,sourcey,source] <- rho.source[source]
+      }
+    }
+    for(source2 in 1:num.iso) {
+      corr.source[source2,source2,source] <- 1 
+    }      
+    cov.source[1:num.iso,1:num.iso,source] <- inverse(tau.source.temp[,,source])
+    tau.source[1:num.iso,1:num.iso,source] <- inverse((cov.source[,,source]%*%corr.source[,,source]%*%cov.source[,,source]) + sigmaZ + fracvar.mat[,,source] )
+ 
+    ##draws subsource means and fit to data
+      mu.source[source,1:num.iso] ~ dmnorm(mu.prior.mu, mu.prior.cov)
+      for(count in 1:source.ss[source]) {
+	source.array[count,,source] ~ dmnorm(mu.source[source,], tau.source[,,source])
+      }
+  }#end for sources
+  
+  
+  ####################### 
+  ##draw residual error##
+  #######################
+  res.tau[1,2] <- 0;
+  res.tau[2,1] <- 0;
+  for(iso in 1:num.iso) {
+    res.tau[iso,iso] ~ dgamma(1e-3,1e-3)#dexp(1/1000)#dunif(0,20)#dgamma(10,10)#dunif(0,20);#dexp(1);
+  }
+  res.err[1:num.iso,1:num.iso] <- inverse(res.tau)
+
+  ##rescale sources by p
+  for(i in 1:N) {
+    ##rescale covariance and include fractionation
+    for(source in 1:num.sources) {
+      for(iso in 1:num.iso) {
+	covfrac.source[iso,iso,source,i] <- (cov.source[iso,iso,source]+frac.sd[source,iso])*pIso.ind[i,iso,source]
+      }
+      for(isox in 2:(num.iso)) {
+	for(isoy in 1:(isox-1)) {
+	  covfrac.source[isox,isoy,source,i] <- 0
+	}
+      }
+      for(isoy in 2:(num.iso)) {
+	for(isox in 1:(isoy-1)) {
+	  covfrac.source[isox,isoy,source,i] <- 0
+	}
+      }
+  
+      obscov.mat[1:num.iso,1:num.iso,source,i] <- (covfrac.source[,,source,i]%*%corr.source[,,source]%*%covfrac.source[,,source,i] + sigmaZ + res.err)  
+  
+    }#end for source
+
+    for(x in 1:num.iso) {
+      for(y in 1:num.iso) {
+	sumobscov.mat[x,y,i] <- sum(obscov.mat[x,y,1:num.sources,i])  
+      }
+    }
+    for(iso in 1:num.iso) {
+      mix.mu[i,iso] <- pIso.ind[i,iso,]%*%(mu.source[,iso])
+    }
+  }#end for i
+
+
+  ##calculate the likelihoods for the N individuals.
+  for(i in 1:N) {
+    mix.prcsn[1:num.iso,1:num.iso,i] <- inverse(sumobscov.mat[,,i]  )
+#     for(j in 1:ind.counts[i]) {
+      
+      X[i,1:num.iso] ~ dmnorm(mix.mu[i,1:num.iso], mix.prcsn[1:num.iso,1:num.iso, i]);
+#       ind.array[1:num.iso,i,j] ~ dmnorm(mix.mu[i,1:num.iso], mix.prcsn[1:num.iso,1:num.iso, i]);
+    }
+#   }
+
+}#end model
