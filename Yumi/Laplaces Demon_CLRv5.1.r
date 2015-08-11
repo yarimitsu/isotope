@@ -60,12 +60,12 @@ Model <- function(parm, Data)
   phi_F <- phis[2] # freshwater source proportion
   phi_C <- phis[3] # coastal source proportion
   # PRIORS
-  dC_M_prior <- dnorm(dC_M, 23.7, 0.7) #mean SD of marine carbon (Kline 2010)
-  dC_F_prior <- dnorm(dC_F, 24.9, 2.1) #mean of POM at tau ~ 1 in FW
-  dC_C_prior <- dnorm(dC_C, 19.1, 1.17) # mean of POM at tau ~ 1 in coastal
-  dH_M_prior <- dnorm(dH_M, 7.4, 1) #mean of dH_w of 3 marine water
-  dH_F_prior <- dnorm(dH_F, 113.1, 10.9) #mean of dH_w of 4 glacier streams
-  dH_C_prior <- dnorm(dH_C, 15.4, 3.1)  #mean of 10 coastal water samples
+  dC_M_prior <- dnorm(dC_M, -23.7, 0.7) #mean SD of marine carbon (Kline 2010)
+  dC_F_prior <- dnorm(dC_F, -24.9, 2.1) #mean of POM at tau ~ 1 in FW
+  dC_C_prior <- dnorm(dC_C, -19.1, 1.17) # mean of POM at tau ~ 1 in coastal
+  dH_M_prior <- dnorm(dH_M, -7.4, 1) #mean of dH_w of 3 marine water
+  dH_F_prior <- dnorm(dH_F, -113.1, 10.9) #mean of dH_w of 4 glacier streams
+  dH_C_prior <- dnorm(dH_C, -15.4, 3.1)  #mean of 10 coastal water samples
   source_prior <- dC_M_prior + dC_F_prior + dC_C_prior + dH_M_prior + dH_F_prior + dH_C_prior 
   phi_modM_prior  <- dunif(phi_T[1], -10, 10, log = TRUE)
   phi_modF_prior  <- dunif(phi_T[2], -10, 10, log = TRUE)
