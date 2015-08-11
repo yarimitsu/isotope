@@ -1,29 +1,34 @@
+# Clean up R
 rm(list=ls())
 
+# R libraries
 library(LaplacesDemon)
 library(MCMCpack)
 library(compositions)
-source("Simulator.v5.1.r")
 
-dat <- read.csv("krill.csv", header = T)
+# R code
+source("Simulator.R")
+
+# Data
+dat <- read.csv("krill.csv", header = TRUE)
 
 dH_obs <- as.vector(dat$d2H)
 dC_obs <- as.vector(dat$d13C)
 dN_obs <- as.vector(dat$d15N)
 dH_w <- dat$d2H_w
 tau <- dat$TL
-gr <- dat$gr #grouping variable - Genus
+gr <- dat$gr # grouping variable - Genus
 N <- nrow(dat) 
 
 # Simulation model
-parm.names <-     c("dC_M", "dC_F", "dC_C", "dH_M", "dH_F", "dH_C", "phi_modM","phi_modF", "phi_modC","logvar_CM", "logvar_CF",  "logvar_CC",  "logvar_HM", "logvar_HF","logvar_HC", "logvar_DeltaC", "logvar_omega", "logomega", "logDelta_C", "logdH_p")
+parm.names <- c("dC_M", "dC_F", "dC_C", "dH_M", "dH_F", "dH_C", "phi_modM","phi_modF", "phi_modC","logvar_CM", "logvar_CF",  "logvar_CC",  "logvar_HM", "logvar_HF","logvar_HC", "logvar_DeltaC", "logvar_omega", "logomega", "logDelta_C", "logdH_p")
 Initial.Values <- c(-23.7, -24.9, -19.1, -7.1, -113, -15, 1.626544, -14.256495, 7.616156, 2.044173, 1.728355, -8.700835, -6.765336, 7.443521, -6.809056, -6.449024, -5.089111, -1.374354, 0.875469, 5.106157)
 Sim <- Model_Sim(Initial.Values, N, seed = 42)
 dH_sim <- dH_obs <- Sim$dH_sim; dH_sim
 dC_sim <- dC_obs <- Sim$dC_sim; dC_sim
 
 mon.names <- c("LogPrior","LogLike","LogPosterior", "phi_M", "phi_F", "phi_C", "omega", "dH_p", "Delta_C", "u_C", "u_H", "sigma_C", "sigma_H")
-parm.names <-     c("dC_M", "dC_F", "dC_C", "dH_M", "dH_F", "dH_C", "phi_modM","phi_modF", "phi_modC","logvar_CM", "logvar_CF",  "logvar_CC",  "logvar_HM", "logvar_HF","logvar_HC", "logvar_DeltaC", "logvar_omega", "logomega", "logDelta_C", "logdH_p")
+parm.names <- c("dC_M", "dC_F", "dC_C", "dH_M", "dH_F", "dH_C", "phi_modM","phi_modF", "phi_modC","logvar_CM", "logvar_CF",  "logvar_CC",  "logvar_HM", "logvar_HF","logvar_HC", "logvar_DeltaC", "logvar_omega", "logomega", "logDelta_C", "logdH_p")
 Initial.Values <- c(-23.7, -24.9, -19.1, -7.1, -113, -15, 1.626544, -14.256495, 7.616156, 2.044173, 1.728355, -8.700835, -6.765336, 7.443521, -6.809056, -6.449024, -5.089111, -1.374354, 0.875469, 5.106157)
 #Initial.Values <- c ( -23.7, -24.9, -19.1, -7.1,   -113,   -15,        3,       1,            7,      log(1),       log(1),        log(1),      log(1),         log(1),     log(1),       log(1),          log(1),      log(.2),    log(0.5),     log(163))
 Data <- list(N = N, mon.names = mon.names, parm.names = parm.names, dH_obs = dH_obs, dC_obs = dC_obs, dH_w = dH_w, tau = tau)
@@ -34,7 +39,7 @@ Model <- function(parm, Data)
   # DATA
   dH_obs <- Data$dH_obs # i = 1,..,n
   dC_obs <- Data$dC_obs # i = 1,..,n
-  tau  <- Data$tau  # trophic level for each individual i= 1,...,n
+  tau  <- Data$tau  # trophic level for each individual i = 1,...,n
   dH_w <- Data$dH_w # hydrogen isotope measurement of environmental water for each individual
   # PARAMETERS
   dC_M <- parm[1]
@@ -43,11 +48,11 @@ Model <- function(parm, Data)
   dH_M <- parm[4]
   dH_F <- parm[5]
   dH_C <- parm[6]
-  phi <- parm[7:9] #centered-log ratio transformed source proportions, parameters of interest
+  phi <- parm[7:9]          # centered-log ratio transformed source proportions, parameters of interest
   var   <- exp(parm[10:17])
-  omega <- exp(parm[18]) #proportion of hydrogen composition due to environmental water dH_w
-  Delta_C <- exp(parm[19]) #change in carbon due to trophic level
-  dH_p  <- exp(parm[20]) #change in hydrogen between water and trophic level 1
+  omega <- exp(parm[18])    # proportion of hydrogen composition due to environmental water dH_w
+  Delta_C <- exp(parm[19])  # change in carbon due to trophic level
+  dH_p  <- exp(parm[20])    # change in hydrogen between water and trophic level 1
   # TRANSFORMATIONS
   phi_T <- clr(phi[1:3]) #centered-log transformation of phi
   phis <- exp(phi_T)/sum(exp(phi_T)) #back tranform to mixture proportion
